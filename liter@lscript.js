@@ -5,7 +5,7 @@
 // f@{Page(content)[
 //     p@content
 // ]}
-const Page = (content) => {
+const Page = function (content) {
     this.content = content;
 };
 
@@ -25,7 +25,7 @@ Page.prototype.render = function () {
 //     # figure this syntax out
 //     c@f@{Page}|content|
 // ]}
-const Post = (tags, content) => {
+const Post = function (tags, content) {
     this.tags = tags;
     // what's this doing for me?
     Page.call(this, content);
