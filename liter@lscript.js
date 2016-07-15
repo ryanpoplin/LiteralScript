@@ -36,7 +36,7 @@ const Post = (tags, content) => {
 // ]}
 Post.prototype = new Page('new Page');
 
-// post <= init@{Post(['good', 'bad', 'ugly'], 'Here is some awesome content...')}
+// @f{post} <= init@f@{Post(['good', 'bad', 'ugly'], 'Here is some awesome content...')}
 const post = new Post(['good', 'bad', 'ugly'], 'Here is some awesome content...');
 
 // log@f@{post}
