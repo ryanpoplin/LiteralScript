@@ -1,31 +1,30 @@
 /* Liter@lScript */
 
-// # auto constants
+// auto constants
 
-// f@{Page(content):
+// foc@{Page(content):
 //     p@content
 // :}
 const Page = function (content) {
-    // console.log(content);
     this.content = content;
-    // console.log(this.content);
+    // this.test = 'test property...';
 };
 
 // # a comment for Liter@lScript
 // # a multi-line
 // comment for Liter@lScript #
 
-// f@{Page}proto@{:
+// foc@{Page}proto@{:
 //     m@render() <- '<div>t@p@content@t</div>'
 // :}
 Page.prototype.render = function () {
     return `<div>${this.content}</div>`;
 };
 
-// f@{Post(tags, content):
+// foc@{Post(tags, content):
 //     p@tags
 //     # |this, arg, x, y, z|
-//     c@f@{Page}|content, x, y, z|
+//     call@foc@{Page}|content, x, y, z|
 // :}
 const Post = function (tags, content) {
     this.tags = tags;
@@ -36,33 +35,36 @@ const Post = function (tags, content) {
     Page.call(this, content);
 };
 
-// f@{Post}proto@{:
+// foc@{Post}proto@{::
 //     init@{Page('initialize a Page function object')}
-// :}
+// ::}
 Post.prototype = new Page('Page');
 // console.log(Post.prototype);
 // console.log(Post.__proto__);
 
-// @f{post} <= init@f@{Post(['good', 'bad', 'ugly'], 'Here is some awesome content...')}
+// o@{post} <= init@foc@{Post(['good', 'bad', 'ugly'], 'Here is some awesome content...')}
 // const post = new Post(['good', 'bad', 'ugly'], 'Post');
 
-// log@f@{post}
+// log@o@{post}
 // console.log(post);
-// log@f@{post::m@render()::}
+// log@o@{post::m@render()::}
 // console.log(post.render());
 
-// etc...
+// foc@{Post}proto@{:
+//     <- '<ul>t@call@foc@{Page::m@renderTags()::}@t</ul>t@foc@{Page}proto@{::call@m@render()::}@t'
+// :}
 Post.prototype.render = function () {
     const page = Page.prototype.render.call(this);
     return `<ul>${this.renderTags()}</ul>${page}`;
 };
 
+// foc@{Post}proto@{:
+//     <- '<li>foc@{Post::@join('</li><li>')@p@tags::}</li>'
+// :}
 Post.prototype.renderTags = function () {
     return `<li>${this.tags.join('</li><li>')}</li>`;
 };
 
 const page = new Page('Welcome to LiteralScript!');
-
 const post = new Post(['langs', 'LiteralScript', 'JavaScript'], 'A new language...');
-
 console.log(post.render());
