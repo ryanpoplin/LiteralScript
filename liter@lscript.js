@@ -1,7 +1,6 @@
-/* Liter@lScript */
+/* Liter@lScript - Liter@lScript to ES6 */
 
-// auto constants
-
+// NOTE: auto constants
 // foc@{Page(content):
 //     p@content
 // :}
@@ -51,9 +50,15 @@ Post.prototype = new Page('Page');
 // console.log(post.render());
 
 // foc@{Post}proto@{:
-//     <- '<ul>t@call@foc@{Page::m@renderTags()::}@t</ul>t@foc@{Page}proto@{::call@m@render()::}@t'
+//     <- '<ul>t@call@foc@{Page::
+//                 m@renderTags()
+//             ::}@t</ul>t@
+//             foc@{Page}proto@{::
+//                 call@m@render()
+//             ::}@t'
 // :}
 Post.prototype.render = function () {
+    // NOTE: Polymorphism
     const page = Page.prototype.render.call(this);
     return `<ul>${this.renderTags()}</ul>${page}`;
 };
@@ -65,6 +70,34 @@ Post.prototype.renderTags = function () {
     return `<li>${this.tags.join('</li><li>')}</li>`;
 };
 
+// NOTE: refer to previous LiteralScript code above for the syntax of the following 3 lines...
 const page = new Page('Welcome to LiteralScript!');
 const post = new Post(['langs', 'LiteralScript', 'JavaScript'], 'A new language...');
 console.log(post.render());
+
+class Page2 {
+    constructor(content) {
+        this.content = content;
+    }
+    render() {
+        return `<div>${this.content}</div>`;
+    }
+}
+
+class Post2 extends Page {
+    constructor(tags, content) {
+        super(content);
+        this.tags = tags;
+    }
+    render() {
+        const page = super.render();
+        return `<ul>${this.renderTags()}</ul>${page}`;
+    }
+    renderTags() {
+        return `<li>${this.tags.join('</li><li>')}</li>`;
+    }
+}
+
+const page2 = new Page2('Welcome to LiteralScript, again...');
+const post2 = new Post2(['news', 'booze', 'lose'], 'Some more awesome content...');
+console.log(post2.render());
