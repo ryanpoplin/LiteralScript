@@ -6,9 +6,9 @@
 //     p@content
 // :}
 const Page = function (content) {
-    console.log(content);
+    // console.log(content);
     this.content = content;
-    console.log(this.content);
+    // console.log(this.content);
 };
 
 // # a comment for Liter@lScript
@@ -29,8 +29,10 @@ Page.prototype.render = function () {
 // :}
 const Post = function (tags, content) {
     this.tags = tags;
-    // 'this' refers to the function object that will be created when a new instance of this constructor function object is created.
+    // 'this' refers to the object that will be created when a new instance of this constructor function object when created.
     // when .call() passes 'this' and data in the scope of Post, Post will have the ability to reference data, properties and methods of Page.
+    // now Post will have a 'content' property added to it's init. object via the Page.
+    // memory-linkage
     Page.call(this, content);
 };
 
@@ -38,13 +40,29 @@ const Post = function (tags, content) {
 //     init@{Page('initialize a Page function object')}
 // :}
 Post.prototype = new Page('Page');
-console.log(Post.prototype);
-console.log(Post.__proto__);
+// console.log(Post.prototype);
+// console.log(Post.__proto__);
 
 // @f{post} <= init@f@{Post(['good', 'bad', 'ugly'], 'Here is some awesome content...')}
-const post = new Post(['good', 'bad', 'ugly'], 'Post');
+// const post = new Post(['good', 'bad', 'ugly'], 'Post');
 
 // log@f@{post}
-console.log(post);
+// console.log(post);
 // log@f@{post::m@render()::}
+// console.log(post.render());
+
+// etc...
+Post.prototype.render = function () {
+    const page = Page.prototype.render.call(this);
+    return `<ul>${this.renderTags()}</ul>${page}`;
+};
+
+Post.prototype.renderTags = function () {
+    return `<li>${this.tags.join('</li><li>')}</li>`;
+};
+
+const page = new Page('Welcome to LiteralScript!');
+
+const post = new Post(['langs', 'LiteralScript', 'JavaScript'], 'A new language...');
+
 console.log(post.render());
